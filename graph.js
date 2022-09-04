@@ -1,7 +1,7 @@
 const dados = require("./disciplinas")
 
 
-class Disciplina {
+export class Disciplina {
     nome;
     sigla;
     peso;
@@ -9,9 +9,9 @@ class Disciplina {
     preRequisitos = []
     constructor(disciplina, preRequisitos, pesoSemestre) {
         this.nome = disciplina
-        var sigla = ""
-        var palavras = disciplina.split(" ")
-        for (var i in palavras)
+        let sigla = ""
+        const palavras = disciplina.split(" ")
+        for (const i in palavras)
             if(palavras[i].length > 3)
                 sigla += palavras[i][0]
             else if (/^-?\d+$/.test(palavras[i]))
@@ -24,8 +24,8 @@ class Disciplina {
 
     recalculaPesos(listaDeDisciplinas) {
         for(i in listaDeDisciplinas) {
-            var preRequisitoss = listaDeDisciplinas[i].preRequisitos
-            for (var j=0;j<preRequisitoss.length;j++)
+            const preRequisitoss = listaDeDisciplinas[i].preRequisitos
+            for (const j=0;j<preRequisitoss.length;j++)
                 if(preRequisitoss[j] == this.nome)
                     this.peso += listaDeDisciplinas[i].peso + 1
         }
@@ -36,8 +36,8 @@ class Disciplina {
     }
 }
 
-var listaDisciplina = [];
-var valores = Object.values(dados)
+export const listaDisciplina = [];
+const valores = Object.values(dados)
 for(i in valores)
     listaDisciplina[valores[i].nome] = new Disciplina(valores[i].nome, valores[i].preRequisitos, valores[i].pesoSemestre)
 
