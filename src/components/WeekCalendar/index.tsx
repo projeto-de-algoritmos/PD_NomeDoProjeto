@@ -4,17 +4,19 @@ import { Disciplina } from "../../../graph";
 
 const initialState =['Livre', 'Livre', 'Livre', 'Livre', 'Livre']
 export default function WeekCalendar({disciplines}: {disciplines: Disciplina[]}) {
-  const [disciplinesPerDay, setDisciplinesPerDay] = useState<string[][]>([initialState, initialState, initialState, initialState, initialState, initialState])
+  const [disciplinesPerDay, setDisciplinesPerDay] = useState<string[][]>([[...initialState], [...initialState], [...initialState], [...initialState], [...initialState], [...initialState]])
 
   useEffect(() => {
     if (disciplines.length > 0) {
       for (const discipline of disciplines) {
         for (const hour of discipline.horarios as string[]) {
           const indexes = hour.split('')
+          
           disciplinesPerDay[Number(indexes[1])][Number(indexes[0])] = discipline.nome
+          
         }
       }
-      setDisciplinesPerDay([...disciplinesPerDay])
+      setDisciplinesPerDay(disciplinesPerDay)
     }
   }, [disciplines, disciplinesPerDay])
 
@@ -36,9 +38,9 @@ export default function WeekCalendar({disciplines}: {disciplines: Disciplina[]})
           <Tr>
             <Td>8h</Td>
             {
-              disciplinesPerDay[0].map(disciplinePerDay => {
+              disciplinesPerDay[0].map((disciplinePerDay, index) => {
                 return (
-                  <Td key={disciplinePerDay}>{disciplinePerDay}</Td>
+                  <Td key={index}>{disciplinePerDay}</Td>
                 )
               })
             }
@@ -46,9 +48,9 @@ export default function WeekCalendar({disciplines}: {disciplines: Disciplina[]})
           <Tr>
             <Td>10h</Td>
             {
-              disciplinesPerDay[1].map(disciplinePerDay => {
+              disciplinesPerDay[1].map((disciplinePerDay, index) => {
                 return (
-                  <Td key={disciplinePerDay}>{disciplinePerDay}</Td>
+                  <Td key={index}>{disciplinePerDay}</Td>
                 )
               })
             }
@@ -56,9 +58,9 @@ export default function WeekCalendar({disciplines}: {disciplines: Disciplina[]})
           <Tr>
             <Td>12h</Td>
             {
-              disciplinesPerDay[2].map(disciplinePerDay => {
+              disciplinesPerDay[2].map((disciplinePerDay, index)  => {
                 return (
-                  <Td key={disciplinePerDay}>{disciplinePerDay}</Td>
+                  <Td key={index}>{disciplinePerDay}</Td>
                 )
               })
             }
@@ -66,9 +68,9 @@ export default function WeekCalendar({disciplines}: {disciplines: Disciplina[]})
           <Tr>
             <Td>14h</Td>
             {
-              disciplinesPerDay[3].map(disciplinePerDay => {
+              disciplinesPerDay[3].map((disciplinePerDay, index)  => {
                 return (
-                  <Td key={disciplinePerDay}>{disciplinePerDay}</Td>
+                  <Td key={index}>{disciplinePerDay}</Td>
                 )
               })
             }
@@ -76,9 +78,9 @@ export default function WeekCalendar({disciplines}: {disciplines: Disciplina[]})
           <Tr>
             <Td>16h</Td>
             {
-              disciplinesPerDay[4].map(disciplinePerDay => {
+              disciplinesPerDay[4].map((disciplinePerDay, index)  => {
                 return (
-                  <Td key={disciplinePerDay}>{disciplinePerDay}</Td>
+                  <Td key={index}>{disciplinePerDay}</Td>
                 )
               })
             }
@@ -86,9 +88,9 @@ export default function WeekCalendar({disciplines}: {disciplines: Disciplina[]})
           <Tr>
             <Td>18h</Td>
             {
-              disciplinesPerDay[5].map(disciplinePerDay => {
+              disciplinesPerDay[5].map((disciplinePerDay, index)  => {
                 return (
-                  <Td key={disciplinePerDay}>{disciplinePerDay}</Td>
+                  <Td key={index}>{disciplinePerDay}</Td>
                 )
               })
             }
