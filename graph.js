@@ -6,8 +6,9 @@ export class Disciplina {
     sigla;
     peso;
     pesoSemestre;
+    horarios = []
     preRequisitos = []
-    constructor(disciplina, preRequisitos, pesoSemestre) {
+    constructor(disciplina, preRequisitos, pesoSemestre, horarios) {
         this.nome = disciplina
         let sigla = ""
         const palavras = disciplina.split(" ")
@@ -20,6 +21,7 @@ export class Disciplina {
         this.peso = 1
         this.pesoSemestre = pesoSemestre
         this.preRequisitos = preRequisitos
+        this.horarios = horarios
     }
 
     recalculaPesos(listaDeDisciplinas) {
@@ -39,7 +41,7 @@ export class Disciplina {
 export const listaDisciplina = [];
 const valores = Object.values(dados)
 for(let i in valores)
-    listaDisciplina.push( new Disciplina(valores[i].nome, valores[i].preRequisitos, valores[i].pesoSemestre))
+    listaDisciplina.push( new Disciplina(valores[i].nome, valores[i].preRequisitos, valores[i].pesoSemestre, valores[i].horarios))
 
 for(let i in listaDisciplina)
     listaDisciplina[i].recalculaPesos(listaDisciplina)
