@@ -42,14 +42,14 @@ export class Disciplina {
 
 // Retorna um array com as disciplinas criadas, de acordo com o objeto de matérias enviadas como parâmetro
 function inicializa(disciplinas) {
-    export const listaDisciplina = []
+    const listaDisciplina = []
     const valores = Object.values(disciplinas)
 
     for(let i in valores)
-        listaDisciplina.push( new Disciplina(valores[i].nome, valores[i].preRequisitos, valores[i].inicio, valores[i].fim, valores[i].pesoAtividade)
+        listaDisciplina.push( new Disciplina(valores[i].nome, valores[i].preRequisitos, valores[i].inicio, valores[i].fim, valores[i].pesoAtividade))
 
     for(i in listaDisciplina)
-        listaDisciplina[i].calculaPesos(listaDisciplina, valores[i].horarios))
+        listaDisciplina[i].calculaPesos(listaDisciplina, valores[i].horarios)
 
     for(i in listaDisciplina)
         listaDisciplina[i].recalculaPesos(listaDisciplina)
