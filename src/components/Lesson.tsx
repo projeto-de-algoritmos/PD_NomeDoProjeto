@@ -4,14 +4,14 @@ import { Disciplina } from "../../graph";
 
 type LessonProps = {
   data: Disciplina
-  onClick: (data: Disciplina) => void 
+  onClick?: (data: Disciplina) => void 
 }
 export default function Lesson({data, onClick}: LessonProps) {
   const [isSelected, setIsSelected] = useState<boolean>(false)
 
   const lessonSelected = () => {
     setIsSelected(!isSelected)
-    onClick(data)
+    onClick ? onClick(data) : ''
   }
   
   return (
