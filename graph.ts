@@ -79,73 +79,56 @@ function inicializa(disciplinas: {[name: string]: {nome:string, preRequisitos:st
     return listaDisciplina
 }
 
+function findMaxpesoJobs(atividades: Atividade[]) { 
 
+    atividades.sort((a,b)=>a.inicio - b.inicio)
+    const n = atividades.length
 
-function findLastNonConflictingJob(jobs: Atividade[], jobsSize: number) {
-    let low = 0 
-    let high = jobsSize
-    let mid = -1
-    while (low <= high) {
-        mid = Math.floor((low + high)/2)
-        if (jobs[mid].fim <= jobs[jobsSize].inicio) {
-            if (jobs[mid+1].fim <= jobs[jobsSize].inicio)
-                low = mid + 1
-            else
-                return mid
-        }
-        else
-            high = mid - 1
-    }
-    return -1
-}
-
-
-
-
-function findMaxpesoJobs(jobs: Atividade[]) {
-    if (jobs.length == 0)
-        return 0
-    jobs.sort((a,b)=>a.fim - b.fim)
-
-    const totalJobs = jobs.length
-
-    const maxpeso = []
-    var tasks = new Array(totalJobs).fill([])
-
-    maxpeso[0] = jobs[0].peso
-    tasks[0].push(0)
-
-    for(let  i=1;i<totalJobs;i++) {
-        const index = findLastNonConflictingJob(jobs, i)
-        let currentpeso = jobs[i].peso
-        if (index != -1)
-            currentpeso += maxpeso[index]
-
-        if (maxpeso[i - 1] < currentpeso) {
-            maxpeso[i] = currentpeso
-            if (index != -1)
-                tasks[i] = tasks[index];
-            tasks[i].push(i)
-        }
-
-        // excluding the current job leads to the maximum peso so far
-        else {
-            tasks[i] = tasks[i-1]
-            maxpeso[i] = maxpeso[i - 1]
-        }
-    }
-    // `maxpeso[n-1]` stores the maximum peso
-    console.log('The maximum peso is', maxpeso[totalJobs - 1])
-    // `tasks[n-1]` stores the index of jobs involved in the maximum peso
-    console.log("The jobs involved in the maximum peso are")
-    console.log(tasks);
-    console.log(jobs);
+    // `tasks[i]` stores the index of non-conflicting atividades involved in the
+    // maximum peso, which ends with the i'th job
+    var tasks = new Array(n)
+    for(let i=0;i<n;i++)
+        tasks[i] = []
+    // `maxpeso[i]` stores the total peso of atividades in `tasks[i]`
     
+    let maxpeso = [n]
+    for(let i=0;i<n;i++)
+        maxpeso[i] = 0
+
+    for(let i=0;i<n;i++) {    
+        for(let j=0;j<i;j++) {
+            if((atividades[j].fim <= atividades[i].inicio) && (maxpeso[i] < maxpeso[j])) {
+                tasks[i] = tasks[j].slice()
+                maxpeso[i] = maxpeso[j]
+            }
+        }
+        tasks[i].push(i)
+        maxpeso[i] += atividades[i].peso
+    }
+    // find an index with the maximum peso
+    var index = 0
+    for(let i=1;i<n;i++) {
+        if (maxpeso[i] > maxpeso[index])
+            index = i
+    }
+    let retorno: Atividade[] = []
+    for(let i=0;i<tasks[index].length;i++)
+        retorno.push(atividades[tasks[index][i]])
     
-    for (let i of tasks[totalJobs -1])
-        console.log(jobs[i].inicio, jobs[i].fim, jobs[i].peso)
-    return tasks
+        return retorno
 }
+/*
+A função recebe um array do tipo Atividades, coloquei a matéria como String, tem que colocar do tipo Disciplina
+const atividades = [
+    new Atividade("prova", 60, 0, 6, 'ADS'), 
+    new Atividade("tarefa", 50, 5, 9, 'ADS'),
+    new Atividade("trabalho", 30, 1, 4, 'BD'),
+    new Atividade("estudar", 30, 5, 7, 'PA'),
+    new Atividade("tarefa", 10, 3, 5, 'QSW1'),
+    new Atividade("prova", 10, 7, 8, 'TS')
+]
+findMaxpesoJobs(atividades)
+*/
 
 // Aqui crio todas as disciplinas
 const listaDisciplina = inicializa(dados);
